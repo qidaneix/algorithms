@@ -48,4 +48,49 @@ f2([3, 2, 0, -4, 5, 7]);
  * 分治法
  * 算法复杂度 O(n*lgn)
  */
-function f3(arr) {}
+function f3(arr) {
+  function compare(compArr) {
+    let max;
+    for (let i = 0; i < compArr.length; i++) {
+      if (typeof max === "undefined" || compArr[i] > max) max = compArr[i];
+    }
+    return max;
+  }
+
+  function getMaxSum(array, left, right) {
+    if (right - left === 1) {
+      return array[left];
+    }
+
+    const middle = Math.floor((right + left) / 2);
+    const leftMaxSum = getMaxSum(array, left, middle);
+    const rightMaxSum = getMaxSum(array, middle, right);
+
+    // 计算越过边界的长度
+    let leftBoundSum;
+    let rightBoundSum;
+    // 左侧
+    let tempSum = 0;
+    for (let i = middle - 1; i >= left; i--) {
+      tempSum += array[i];
+      if (typeof leftBoundSum === "undefined" || tempSum > leftBoundSum)
+        leftBoundSum = tempSum;
+    }
+    // 右侧
+    tempSum = 0;
+    for (let i = middle; i < right; i++) {
+      tempSum += array[i];
+      if (typeof rightBoundSum === "undefined" || tempSum > rightBoundSum)
+        rightBoundSum = tempSum;
+    }
+
+    const boundSum = leftBoundSum + rightBoundSum;
+
+    return compare([leftMaxSum, rightMaxSum, boundSum]);
+  }
+
+  console.log(getMaxSum(arr, 0, arr.length));
+}
+f3([1, 2, 0, -4, 5, 7]);
+f3([5, 2]);
+f3([-1, 2, 0, -4, 3, 7]);
