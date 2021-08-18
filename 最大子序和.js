@@ -94,3 +94,21 @@ function f3(arr) {
 f3([1, 2, 0, -4, 5, 7]);
 f3([5, 2]);
 f3([-1, 2, 0, -4, 3, 7]);
+
+/**
+ * 动态规划？
+ * 在线处理
+ */
+function f4(array) {
+  let maxSum = -Infinity;
+  let thisSum = 0;
+  for (let i = 0; i < array.length; i++) {
+    thisSum += array[i];
+    if (thisSum > maxSum) maxSum = thisSum;
+    else if (thisSum < 0) thisSum = 0;
+  }
+  console.log(maxSum);
+}
+f4([1, 2, 0, -4, 5, 7]);
+f4([5, 2]);
+f4([-1, 2, 0, -4, 3, 7]);
