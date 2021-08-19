@@ -40,3 +40,30 @@ console.log(binarySearch([1, 2, 3, 4, 5, 6, 7, 8], 7));
 console.log(binarySearch([1, 2, 3, 4, 5, 6, 7, 8, 9], 5));
 console.log(binarySearch([1, 2, 3, 5, 6, 7, 8, 9], 4));
 console.log(binarySearch([1, 2, 3, 7, 8, 9], 4));
+
+function binarySearchMyself(array, x) {
+  function find(top, end) {
+    if (end - top === 1) {
+      return array[top] === x ? top : -1;
+    }
+    const middle = Math.floor((top + end) / 2);
+    if (array[middle - 1] === x) {
+      return middle - 1;
+    } else if (array[middle] === x) {
+      return middle;
+    } else if (array[middle - 1] > x) {
+      return find(top, middle);
+    } else if (array[middle] < x) {
+      return find(middle, end);
+    } else {
+      return -1;
+    }
+  }
+
+  return find(0, array.length);
+}
+console.log(binarySearchMyself([1, 2, 3, 4, 5, 6, 7, 8, 9], 2));
+console.log(binarySearchMyself([1, 2, 3, 4, 5, 6, 7, 8], 7));
+console.log(binarySearchMyself([1, 2, 3, 4, 5, 6, 7, 8, 9], 5));
+console.log(binarySearchMyself([1, 2, 3, 5, 6, 7, 8, 9], 4));
+console.log(binarySearchMyself([1, 2, 3, 7, 8, 9], 4));
