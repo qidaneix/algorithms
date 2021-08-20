@@ -59,28 +59,24 @@ class BinaryTree {
     return arr;
   }
 
-  /**
-   * TODO:
-   * @returns
-   */
-  // preOrderWithSack() {
-  //   const arr: any[] = [];
-  //   const stack = new Stack();
-  //   let node: any = this.data;
-  //   while (node || !stack.isEmpty()) {
-  //     while (node) {
-  //       stack.push(node);
-  //       node = node.left;
-  //     }
+  preOrderWithSack() {
+    const arr: any[] = [];
+    const stack = new Stack();
+    let node: any = this.data;
+    while (node || !stack.isEmpty()) {
+      while (node) {
+        arr.push(node.data);
+        stack.push(node);
+        node = node.left;
+      }
 
-  //     if (!stack.isEmpty()) {
-  //       node = stack.pop();
-  //       arr.push(node.data);
-  //       node = node.right;
-  //     }
-  //   }
-  //   return arr;
-  // }
+      if (!stack.isEmpty()) {
+        node = stack.pop();
+        node = node.right;
+      }
+    }
+    return arr;
+  }
 
   inOrder() {
     const arr: string[] = [];
@@ -92,21 +88,6 @@ class BinaryTree {
       if (bT.right) {
         f(bT.right);
       }
-    }
-    f(this.data);
-    return arr;
-  }
-
-  postOrder() {
-    const arr: string[] = [];
-    function f(bT: binaryTree) {
-      if (bT.left) {
-        f(bT.left);
-      }
-      if (bT.right) {
-        f(bT.right);
-      }
-      arr.push(bT.data);
     }
     f(this.data);
     return arr;
@@ -130,6 +111,42 @@ class BinaryTree {
     }
     return arr;
   }
+
+  postOrder() {
+    const arr: string[] = [];
+    function f(bT: binaryTree) {
+      if (bT.left) {
+        f(bT.left);
+      }
+      if (bT.right) {
+        f(bT.right);
+      }
+      arr.push(bT.data);
+    }
+    f(this.data);
+    return arr;
+  }
+
+  /**
+   * TODO:
+   */
+  // postOrderWithSack() {
+  //   const arr: any[] = [];
+  //   const stack = new Stack();
+  //   let node: any = this.data;
+  //   while (node || !stack.isEmpty()) {
+  //     while (node) {
+  //       stack.push(node);
+  //       node = node.left;
+  //     }
+
+  //     if (!stack.isEmpty()) {
+  //       node = stack.pop();
+  //       node = node.right;
+  //     }
+  //   }
+  //   return arr;
+  // }
 }
 
 const obj: binaryTree = {
@@ -162,6 +179,8 @@ const obj: binaryTree = {
 
 const BT = new BinaryTree(obj);
 console.log(BT.preOrder());
+console.log(BT.preOrderWithSack()); // 堆栈在这里其实是一个存储功能
 console.log(BT.inOrder());
-console.log(BT.postOrder());
 console.log(BT.inOrderWithSack());
+console.log(BT.postOrder());
+console.log(BT.postOrderWithSack());
