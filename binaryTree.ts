@@ -59,6 +59,29 @@ class BinaryTree {
     return arr;
   }
 
+  /**
+   * TODO:
+   * @returns
+   */
+  // preOrderWithSack() {
+  //   const arr: any[] = [];
+  //   const stack = new Stack();
+  //   let node: any = this.data;
+  //   while (node || !stack.isEmpty()) {
+  //     while (node) {
+  //       stack.push(node);
+  //       node = node.left;
+  //     }
+
+  //     if (!stack.isEmpty()) {
+  //       node = stack.pop();
+  //       arr.push(node.data);
+  //       node = node.right;
+  //     }
+  //   }
+  //   return arr;
+  // }
+
   inOrder() {
     const arr: string[] = [];
     function f(bT: binaryTree) {
@@ -100,8 +123,9 @@ class BinaryTree {
       }
 
       if (!stack.isEmpty()) {
-        arr.push(stack.pop().data);
-        if (node) node = node.right;
+        node = stack.pop();
+        arr.push(node.data);
+        node = node.right;
       }
     }
     return arr;
