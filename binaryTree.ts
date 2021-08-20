@@ -1,3 +1,36 @@
+/**
+ * 堆栈先声明
+ */
+interface stack {
+  push: (item: any) => any;
+  pop: () => any;
+  isEmpty: () => boolean;
+}
+
+class Stack implements stack {
+  constructor() {
+    this.arr = new Array();
+  }
+
+  private arr: any[] = [];
+
+  push(item: any) {
+    this.arr.push(item);
+    return item;
+  }
+
+  pop() {
+    if (this.arr.length) {
+      return this.arr.pop();
+    }
+    throw new Error("the stack is empty");
+  }
+
+  isEmpty() {
+    return !this.arr.length;
+  }
+}
+
 interface binaryTree {
   data?: any;
   left?: binaryTree;
@@ -56,8 +89,22 @@ class BinaryTree {
     return arr;
   }
 
-  inOrderSack() {
+  inOrderWithSack() {
+    const arr: any[] = [];
+    const stack = new Stack();
+    let node: any = this.data;
+    while (node || !stack.isEmpty()) {
+      while (node) {
+        stack.push(node);
+        node = node.left;
+      }
 
+      if (!stack.isEmpty()) {
+        arr.push(stack.pop().data);
+        if (node) node = node.right;
+      }
+    }
+    return arr;
   }
 }
 
@@ -93,21 +140,4 @@ const BT = new BinaryTree(obj);
 console.log(BT.preOrder());
 console.log(BT.inOrder());
 console.log(BT.postOrder());
-
-class Stack {
-  constructor() {
-    this.arr: any[] = new Array();
-  }
-
-  push(item) {
-    this.arr.push(item);
-    return item;
-  }
-
-  pop() {
-    if (this.arr.length) {
-      return this.arr.pop();
-    }
-    throw new Error("the stack is empty");
-  }
-}
+console.log(BT.inOrderWithSack());
