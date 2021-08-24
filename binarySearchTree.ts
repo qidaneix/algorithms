@@ -62,7 +62,7 @@ class BinarySearchTree {
   }
   findMin() {
     function f(bst: binarySearchTree): any {
-      if (!bst.left) return bst.data;
+      if (!bst.left) return bst;
       return f(bst.left);
     }
     return f(this.data);
@@ -70,11 +70,11 @@ class BinarySearchTree {
   findMinWithoutRe() {
     let node = this.data;
     while (node.left) node = node.left;
-    return node.data;
+    return node;
   }
   findMax() {
     function f(bst: binarySearchTree): any {
-      if (!bst.right) return bst.data;
+      if (!bst.right) return bst;
       return f(bst.right);
     }
     return f(this.data);
@@ -82,7 +82,7 @@ class BinarySearchTree {
   findMaxWithoutRe() {
     let node = this.data;
     while (node.right) node = node.right;
-    return node.data;
+    return node;
   }
   insert(x: number) {
     function f(bst: binarySearchTree) {
@@ -104,39 +104,30 @@ class BinarySearchTree {
     return this.data;
   }
   delete(x: number) {
-    let node: binarySearchTree | undefined = this.data;
-    let deleted: binarySearchTree | undefined;
-    let deletedPapa: binarySearchTree | undefined = undefined;
-    while (node) {
-      if (node.data === x) {
-        deleted = node;
-        break;
+    const d = (x: number, bst: binarySearchTree | undefined) => {
+      if (!bst) throw new Error("do not");
+      if (bst.data > x) {
+        bst.left = d(x, bst.left);
+      } else if (bst.data < x) {
+        bst.right = d(x, bst.right);
+      } else {
+        if (bst.left && bst.right) {
+          const temp = this.findMaxWithoutRe.call(bst.left);
+          bst.data = temp.data;
+          bst.left = d(bst.data, bst.left);
+        } else {
+          if (bst.left) {
+            bst = bst.left;
+          } else if (bst.right) {
+            bst = bst.right;
+          } else {
+            bst = undefined;
+          }
+        }
       }
-      if (node.data > x) {
-        deletedPapa = node;
-        node = node.left;
-      } else if (node.data < x) {
-        deletedPapa = node;
-        node = node.right;
-      }
-    }
-    if (!deleted) {
-      throw new Error("do not");
-    }
-    // 被删节点最多一个子树
-    if (!deleted.left || !deleted.right) {
-      if (!deletedPapa) {
-        this.data =
-          (deleted.left as binarySearchTree) ||
-          (deleted.right as binarySearchTree);
-      } else if (deletedPapa.left === deleted) {
-        deletedPapa.left = deleted.left || deleted.right || undefined;
-      } else if (deletedPapa.right === deleted) {
-        deletedPapa.right = deleted.left || deleted.right || undefined;
-      }
-      // 被删节点两个子树
-    } else {
-    }
+      return bst;
+    };
+    d(x, this.data);
     return this.data;
   }
 }
@@ -150,3 +141,4 @@ console.log(BST.findMax());
 console.log(BST.findMaxWithoutRe());
 console.log(BST.insert(5));
 console.log(BST.insert(20));
+console.log(BST.delete(20));
