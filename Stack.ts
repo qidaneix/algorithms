@@ -1,9 +1,11 @@
-class Stack {
+export class Stack {
   constructor() {
     this.arr = new Array();
   }
 
-  push(item) {
+  arr: any[];
+
+  push(item: any) {
     this.arr.push(item);
     return item;
   }
@@ -13,5 +15,9 @@ class Stack {
       return this.arr.pop();
     }
     throw new Error("the stack is empty");
+  }
+
+  isEmpty() {
+    return !this.arr.length;
   }
 }

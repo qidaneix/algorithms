@@ -1,9 +1,11 @@
-class Queue {
+export class Queue {
   constructor() {
     this.arr = new Array();
   }
 
-  push(item) {
+  arr: any[];
+
+  push(item: any) {
     this.arr.push(item);
     return item;
   }
@@ -13,5 +15,9 @@ class Queue {
       return this.arr.shift();
     }
     throw new Error("the Queue is empty");
+  }
+
+  isEmpty() {
+    return !this.arr.length;
   }
 }

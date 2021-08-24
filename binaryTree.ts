@@ -1,35 +1,5 @@
-/**
- * 堆栈先声明
- */
-interface stack {
-  push: (item: any) => any;
-  pop: () => any;
-  isEmpty: () => boolean;
-}
-
-class Stack implements stack {
-  constructor() {
-    this.arr = new Array();
-  }
-
-  private arr: any[] = [];
-
-  push(item: any) {
-    this.arr.push(item);
-    return item;
-  }
-
-  pop() {
-    if (this.arr.length) {
-      return this.arr.pop();
-    }
-    throw new Error("the stack is empty");
-  }
-
-  isEmpty() {
-    return !this.arr.length;
-  }
-}
+import { Stack } from "./Stack.ts";
+import { Queue } from "./Queue.ts";
 
 interface binaryTree {
   data?: any;
@@ -127,26 +97,73 @@ class BinaryTree {
     return arr;
   }
 
-  /**
-   * TODO:
-   */
-  // postOrderWithSack() {
-  //   const arr: any[] = [];
-  //   const stack = new Stack();
-  //   let node: any = this.data;
-  //   while (node || !stack.isEmpty()) {
-  //     while (node) {
-  //       stack.push(node);
-  //       node = node.left;
-  //     }
+  postOrderWithSack() {
+    const arr: any[] = [];
+    const stack = new Stack();
+    let visited: any = null;
+    let node: any = this.data;
 
-  //     if (!stack.isEmpty()) {
-  //       node = stack.pop();
-  //       node = node.right;
-  //     }
-  //   }
-  //   return arr;
-  // }
+    while (node || !stack.isEmpty()) {
+      while (node) {
+        stack.push(node);
+        node = node.left;
+      }
+
+      if (!stack.isEmpty()) {
+        node = stack.pop();
+        if (!node.right || node.right === visited) {
+          arr.push(node.data);
+          visited = node;
+          node = null;
+        } else {
+          stack.push(node);
+          node = node.right;
+        }
+      }
+    }
+
+    return arr;
+  }
+
+  sequence() {
+    const q = new Queue();
+    const arr: any = [];
+    q.push(this.data);
+    while (!q.isEmpty()) {
+      const node = q.shift();
+      arr.push(node.data);
+      if (node.left) q.push(node.left);
+      if (node.right) q.push(node.right);
+    }
+    return arr;
+  }
+
+  getLeaf() {
+    const arr: any[] = [];
+    const stack = new Stack();
+    let node: any = this.data;
+    while (node || !stack.isEmpty()) {
+      while (node) {
+        stack.push(node);
+        node = node.left;
+      }
+
+      if (!stack.isEmpty()) {
+        node = stack.pop();
+        if (!node.left && !node.right) arr.push(node.data);
+        node = node.right;
+      }
+    }
+    return arr;
+  }
+
+  getHeight() {
+    function reHeight(bT: any): number {
+      if (!bT) return 0;
+      return Math.max(reHeight(bT.left), reHeight(bT.right)) + 1;
+    }
+    return reHeight(this.data);
+  }
 }
 
 const obj: binaryTree = {
@@ -184,3 +201,6 @@ console.log(BT.inOrder());
 console.log(BT.inOrderWithSack());
 console.log(BT.postOrder());
 console.log(BT.postOrderWithSack());
+console.log(BT.sequence());
+console.log(BT.getLeaf());
+console.log(BT.getHeight());
