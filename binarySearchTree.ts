@@ -104,17 +104,29 @@ class BinarySearchTree {
     return this.data;
   }
   delete(x: number) {
-    const d = (x: number, bst: binarySearchTree | undefined) => {
+    function findMaxWithoutRe(bst: binarySearchTree) {
+      let node = bst;
+      while (node.right) node = node.right;
+      return node;
+    }
+    function d(
+      delNum: number,
+      bst: binarySearchTree | undefined
+    ): binarySearchTree | undefined {
       if (!bst) throw new Error("do not");
-      if (bst.data > x) {
-        bst.left = d(x, bst.left);
-      } else if (bst.data < x) {
-        bst.right = d(x, bst.right);
+      if (delNum > bst.data) {
+        // 向右
+        bst.right = d(delNum, bst.right);
+      } else if (delNum < bst.data) {
+        // 向左
+        bst.left = d(delNum, bst.right);
       } else {
+        //找到
         if (bst.left && bst.right) {
-          const temp = this.findMaxWithoutRe.call(bst.left);
-          bst.data = temp.data;
-          bst.left = d(bst.data, bst.left);
+          // 左子树找最大节点值
+          const leftMaxNode = findMaxWithoutRe(bst.left);
+          bst.data = leftMaxNode.data;
+          bst.left = d(leftMaxNode.data, bst.left);
         } else {
           if (bst.left) {
             bst = bst.left;
@@ -126,7 +138,7 @@ class BinarySearchTree {
         }
       }
       return bst;
-    };
+    }
     d(x, this.data);
     return this.data;
   }
@@ -141,4 +153,4 @@ console.log(BST.findMax());
 console.log(BST.findMaxWithoutRe());
 console.log(BST.insert(5));
 console.log(BST.insert(20));
-console.log(BST.delete(20));
+console.log(BST.delete(14));
