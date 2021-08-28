@@ -1,9 +1,9 @@
 // 平衡搜索树
 interface avlTree {
-  data?: number;
+  data: number;
   left?: avlTree;
   right?: avlTree;
-  height?: number;
+  height: number;
 }
 
 const avl: avlTree = {
@@ -44,13 +44,13 @@ const avl: avlTree = {
 };
 
 class AVLTree {
-  getHeight(node: avlTree | undefined) {
+  static getHeight(node: avlTree | undefined): number {
     if (!node) return 0;
     return Math.max(this.getHeight(node.left) + this.getHeight(node.right)) + 1;
   }
 
-  llWhirl(node: avlTree) {
-    const newTop = node.left;
+  static llWhirl(node: avlTree) {
+    const newTop = node.left as avlTree;
     node.left = newTop.right;
     newTop.right = node;
     newTop.height = this.getHeight(newTop);
@@ -58,8 +58,8 @@ class AVLTree {
     return newTop;
   }
 
-  rrWhirl(node: avlTree) {
-    const newTop = node.right;
+  static rrWhirl(node: avlTree) {
+    const newTop = node.right as avlTree;
     node.right = newTop.left;
     newTop.left = node;
     newTop.height = this.getHeight(newTop);
@@ -67,24 +67,42 @@ class AVLTree {
     return newTop;
   }
 
-  lrWhirl(node: avlTree) {
-    node.left = this.rrWhirl(node.left);
+  static lrWhirl(node: avlTree) {
+    node.left = this.rrWhirl(node.left as avlTree);
     return this.llWhirl(node);
   }
 
-  rlWhirl(node: avlTree) {
-    node.right = this.llWhirl(node.right);
+  static rlWhirl(node: avlTree) {
+    node.right = this.llWhirl(node.right as avlTree);
     return this.rrWhirl(node);
   }
 
-  insert(x: number, node: avlTree) {
+  static insert(x: number, node: avlTree | undefined) {
     if (!node) {
       node = { data: x, height: 0 };
     } else if (x > node.data) {
       node.right = this.insert(x, node.right);
+      if (this.getHeight(node.right) - this.getHeight(node.left) >= 2) {
+        if (x === node.right.right?.data) {
+          node = this.rrWhirl(node);
+        } else {
+          node = this.rlWhirl(node);
+        }
+      }
     } else if (x < node.data) {
       node.left = this.insert(x, node.left);
+      if (this.getHeight(node.left) - this.getHeight(node.right) >= 2) {
+        if (x === node.left.left?.data) {
+          node = this.llWhirl(node);
+        } else {
+          node = this.lrWhirl(node);
+        }
+      }
     }
+    node.height = this.getHeight(node);
     return node;
   }
 }
+
+console.log(AVLTree.insert(5, avl));
+console.log(AVLTree.insert(20, avl));
