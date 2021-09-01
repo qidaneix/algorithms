@@ -84,11 +84,14 @@ class Heap {
   }
 
   getMax() {
-    const max = this.data[1];
-    const x = this.data.pop() as number;
     let xIndex = 1;
-    this.data[xIndex] = x;
+    const max = this.data[xIndex];
+    const x = this.data.pop() as number;
     const length = this.data.length;
+    if (length <= 1) {
+      return max;
+    }
+    this.data[xIndex] = x;
     while (xIndex * 2 < length) {
       const lChildIdx = xIndex * 2;
       const rChildIdx = xIndex * 2 + 1;

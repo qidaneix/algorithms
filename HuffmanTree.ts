@@ -1,15 +1,21 @@
+interface huffmanTree {
+  data: number;
+  left: huffmanTree | number;
+  right: huffmanTree | number;
+}
+
 /**
  * 最优二叉树
  */
 class HuffmanTree {
-  obj: any;
+  obj: huffmanTree;
 
   constructor() {
     this.obj = null;
   }
 
   build(left: number, right: number, presentMin?: number) {
-    if (!this.obj) {
+    if (!presentMin) {
       this.obj = { left, right, data: left + right };
       return this.obj.data;
     }
@@ -30,6 +36,10 @@ class HuffmanTree {
   }
   // 层序遍历计算权重
   calc() {}
+
+  getTree() {
+    return this.obj;
+  }
 }
 
 /**
@@ -38,16 +48,11 @@ class HuffmanTree {
 class MinHeap {
   data: number[] = [];
   constructor(...arg: number[]) {
-    this.data = [Infinity, ...arg];
+    this.data = [-Infinity, ...arg];
     this.build();
   }
   build() {
-    const lastChildIdx = this.data.length - 1;
-    const pIdx = Math.floor(lastChildIdx / 2);
-    for (let i = pIdx; i > 0; i--) {
-      f(i);
-    }
-    function f(xIdx: number) {
+    const f = (xIdx: number) => {
       const length = this.data.length;
       const x = this.data[xIdx];
       while (xIdx * 2 < length) {
@@ -60,9 +65,9 @@ class MinHeap {
             this.data[lChildIdx] = x;
             this.data[xIdx] = lChild;
           }
-          return;
+          break;
         }
-        if (x < lChild && x < rChild) return;
+        if (x < lChild && x < rChild) break;
         if (lChild > rChild) {
           this.data[rChildIdx] = x;
           this.data[xIdx] = rChild;
@@ -73,6 +78,11 @@ class MinHeap {
           xIdx = lChildIdx;
         }
       }
+    };
+    const lastChildIdx = this.data.length - 1;
+    const pIdx = Math.floor(lastChildIdx / 2);
+    for (let i = pIdx; i > 0; i--) {
+      f(i);
     }
   }
 
@@ -80,8 +90,11 @@ class MinHeap {
     let xIdx = 1;
     const min = this.data[xIdx];
     const x = this.data.pop();
-    this.data[xIdx] = x;
     const length = this.data.length;
+    if (length <= 1) {
+      return min;
+    }
+    this.data[xIdx] = x;
     while (xIdx * 2 < length) {
       const lChildIdx = xIdx * 2;
       const rChildIdx = xIdx * 2 + 1;
@@ -92,9 +105,9 @@ class MinHeap {
           this.data[lChildIdx] = x;
           this.data[xIdx] = lChild;
         }
-        return;
+        break;
       }
-      if (x < lChild && x < rChild) return;
+      if (x < lChild && x < rChild) break;
       if (lChild > rChild) {
         this.data[rChildIdx] = x;
         this.data[xIdx] = rChild;
@@ -107,4 +120,19 @@ class MinHeap {
     }
     return min;
   }
+
+  getMinHeap() {
+    return this.data;
+  }
 }
+
+const h = new MinHeap(11, 14, 15, 13, 16, 19, 18, 17);
+console.log(h.getMinHeap());
+const ht = new HuffmanTree();
+let preMin: number;
+while (h.getMinHeap().length > 1) {
+  const left = h.delete();
+  const right = h.delete();
+  preMin = ht.build(left, right, preMin);
+}
+console.log(ht.getTree());
