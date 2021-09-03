@@ -23,29 +23,41 @@ export class HuffmanTree {
       };
       return this.obj.data;
     }
-    if (presentMin > left && presentMin > right) {
+
+    if (!right) {
       this.obj = {
-        left: JSON.parse(JSON.stringify(this.obj)),
-        right: {
-          left: { data: left },
-          right: { data: right },
-          data: left + right,
+        left: this.obj,
+        right: { data: left },
+        data: presentMin + left,
+      };
+      return this.obj.data;
+    }
+
+    if (presentMin < right) {
+      this.obj = {
+        left: {
+          left: this.obj,
+          right: { data: left },
+          data: presentMin + left,
         },
+        right: { data: right },
         data: presentMin + left + right,
       };
       return this.obj.data;
     }
+
     this.obj = {
-      left: {
-        left: JSON.parse(JSON.stringify(this.obj)),
-        right: { data: left },
-        data: presentMin + left,
+      left: this.obj,
+      right: {
+        left: { data: left },
+        right: { data: right },
+        data: left + right,
       },
-      right: { data: right },
       data: presentMin + left + right,
     };
     return this.obj.data;
   }
+
   // 层序遍历计算权重
   calc() {}
 
@@ -168,13 +180,13 @@ export class MinHeap {
   }
 }
 
-const h = new MinHeap(11, 14, 15, 13, 16, 19, 18, 17);
-console.log(h.getMinHeap());
-const ht = new HuffmanTree();
-let preMin: number;
-while (h.getMinHeap().length > 1) {
-  const left = h.delete();
-  const right = h.delete();
-  preMin = ht.build(left, right, preMin);
-}
-console.log(ht.getTree());
+// const h = new MinHeap(11, 14, 15, 13, 16, 19, 18, 17);
+// console.log(h.getMinHeap());
+// const ht = new HuffmanTree();
+// let preMin: number;
+// while (h.getMinHeap().length > 1) {
+//   const left = h.delete();
+//   const right = h.delete();
+//   preMin = ht.build(left, right, preMin);
+// }
+// console.log(ht.getTree());
