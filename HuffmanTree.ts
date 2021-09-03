@@ -1,3 +1,4 @@
+import { Stack } from "./Stack.ts";
 interface huffmanTree {
   data: number;
   left?: huffmanTree;
@@ -59,33 +60,45 @@ export class HuffmanTree {
   }
 
   // 层序遍历计算权重
-  calc() {}
+  calc() {
+    const arr: any[] = [];
+    const stack = new Stack();
+    let node: any = this.obj;
+    let i = 0;
+    while (node || !stack.isEmpty()) {
+      while (node) {
+        arr.push({ data: node.data, deep: i });
+        stack.push(node);
+        i += 1;
+        node = node.left;
+      }
+
+      if (!stack.isEmpty()) {
+        node = stack.pop();
+        i -= 1;
+        node = node.right;
+      }
+    }
+    return arr;
+  }
 
   // coding
   coding() {
     const arr: { value: number; code: string }[] = [];
-    let i = 0;
+    const codeArr: ("1" | "0")[] = [];
     const f = (node: huffmanTree) => {
+      arr.push({ value: node.data, code: codeArr.join("") });
       if (node.left) {
-        let code = "";
-        for (let k = 0; k <= i; k++) {
-          code += "0";
-        }
-        arr.push({ value: node.data, code });
-        i += 1;
+        codeArr.push("0");
         f(node.left);
       }
 
       if (node.right) {
-        let code = "";
-        for (let k = 0; k <= i; k++) {
-          if (k === i) code += "1";
-          else code += "0";
-        }
-        arr.push({ value: node.data, code });
-        i -= 1;
+        codeArr.push("1");
         f(node.right);
       }
+
+      codeArr.pop();
     };
     f(this.obj);
     return arr;
