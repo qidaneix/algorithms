@@ -9,7 +9,7 @@ let preNum: number;
 while (h.getMinHeap().length > 1) {
   preNum = ht.build(h.delete(), h.delete(), preNum);
 }
-console.log("tree", ht.getTree());
+console.log("tree", JSON.stringify(ht.getTree()));
 
 const numDeep = ht.coding();
 console.log("numDeep", numDeep);

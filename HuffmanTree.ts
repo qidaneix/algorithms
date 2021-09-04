@@ -18,67 +18,66 @@ export class HuffmanTree {
   build(left: number, right: number, presentMin?: number) {
     if (!presentMin) {
       this.obj = {
+        data: left + right,
         left: { data: left },
         right: { data: right },
-        data: left + right,
       };
       return this.obj.data;
     }
 
     if (!right) {
       this.obj = {
+        data: presentMin + left,
         left: this.obj,
         right: { data: left },
-        data: presentMin + left,
       };
       return this.obj.data;
     }
 
     if (presentMin < right) {
       this.obj = {
+        data: presentMin + left + right,
         left: {
+          data: presentMin + left,
           left: this.obj,
           right: { data: left },
-          data: presentMin + left,
         },
         right: { data: right },
-        data: presentMin + left + right,
       };
       return this.obj.data;
     }
 
     this.obj = {
+      data: presentMin + left + right,
       left: this.obj,
       right: {
         left: { data: left },
         right: { data: right },
         data: left + right,
       },
-      data: presentMin + left + right,
     };
     return this.obj.data;
   }
 
-  // 层序遍历计算权重
+  // 遍历计算权重
   calc() {
-    const arr: any[] = [];
-    const stack = new Stack();
-    let node: any = this.obj;
+    const arr: { value: number; deep: number }[] = [];
     let i = 0;
-    while (node || !stack.isEmpty()) {
-      while (node) {
-        arr.push({ data: node.data, deep: i });
-        stack.push(node);
+    const f = (node: huffmanTree) => {
+      if (!node.left && !node.right) arr.push({ value: node.data, deep: i });
+      if (node.left) {
         i += 1;
-        node = node.left;
+        f(node.left);
       }
 
-      if (!stack.isEmpty()) {
-        node = stack.pop();
-        i -= 1;
-        node = node.right;
+      if (node.right) {
+        i += 1;
+        f(node.right);
       }
-    }
+
+      i -= 1;
+    };
+    f(this.obj);
     return arr;
   }
 
@@ -87,7 +86,8 @@ export class HuffmanTree {
     const arr: { value: number; code: string }[] = [];
     const codeArr: ("1" | "0")[] = [];
     const f = (node: huffmanTree) => {
-      arr.push({ value: node.data, code: codeArr.join("") });
+      if (!node.left && !node.right)
+        arr.push({ value: node.data, code: codeArr.join("") });
       if (node.left) {
         codeArr.push("0");
         f(node.left);
