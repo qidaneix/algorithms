@@ -16,6 +16,7 @@ const adjacencyMatrix = [
 
 /**
  * 无向图，领接矩阵下三角数组表示法
+ * triangular matrix 下三角矩阵
  */
 class Graph {
   arr: number[] = [];
