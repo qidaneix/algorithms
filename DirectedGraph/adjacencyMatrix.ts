@@ -45,6 +45,39 @@ class Graph {
     }
     return adjacentVertexes;
   }
+  // 类似树的先序遍历
+  DFS() {
+    const res: number[] = [];
+    const dfs = (vertex: number) => {
+      res.push(vertex);
+      const adjacentVertexes = this.getAdjacentVertex(vertex);
+      for (let i = 0; i < adjacentVertexes.length; i++) {
+        if (!res.includes(adjacentVertexes[i])) {
+          dfs(adjacentVertexes[i]);
+        }
+      }
+    };
+    dfs(0);
+    return res;
+  }
+  // 类似树的层序遍历
+  BFS() {
+    const res: number[] = [];
+    const queue: number[] = []; // 队列
+    queue.push(0);
+    res.push(0);
+    while (queue.length) {
+      const v = queue.shift() as number;
+      const adjacentVertexes = this.getAdjacentVertex(v);
+      for (let i = 0; i < adjacentVertexes.length; i++) {
+        if (!res.includes(adjacentVertexes[i])) {
+          res.push(adjacentVertexes[i]);
+          queue.push(adjacentVertexes[i]);
+        }
+      }
+    }
+    return res;
+  }
 }
 
 const g = new Graph(adjacencyMatrix);

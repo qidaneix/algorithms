@@ -81,7 +81,7 @@ class Graph {
   // 类似树的层序遍历
   BFS() {
     const res: number[] = [];
-    const queue: number[] = [];
+    const queue: number[] = []; // 队列
     queue.push(0);
     res.push(0);
     while (queue.length) {
@@ -105,6 +105,6 @@ const g = new Graph(adjacencyMatrix);
 // console.log(g.getEdge(1, 2));
 // console.log(adjacencyMatrix[1][2]);
 // console.log(g.getVertexNum());
-// console.log(g.getAdjacentVertex(3));
+console.log(g.getAdjacentVertex(3));
 // console.log(g.DFS());
-console.log(g.BFS());
+// console.log(g.BFS());
