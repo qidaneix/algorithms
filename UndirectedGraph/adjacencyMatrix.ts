@@ -100,11 +100,11 @@ class Graph {
 
 const g = new Graph(adjacencyMatrix);
 // console.log(g.arr);
-// console.log(g.getEdge(2, 1));
+console.log(g.getEdge(2, 1));
 // console.log(adjacencyMatrix[2][1]);
-// console.log(g.getEdge(1, 2));
+console.log(g.getEdge(1, 2));
 // console.log(adjacencyMatrix[1][2]);
-// console.log(g.getVertexNum());
+console.log(g.getVertexNum());
 console.log(g.getAdjacentVertex(3));
-// console.log(g.DFS());
-// console.log(g.BFS());
+console.log(g.DFS());
+console.log(g.BFS());
