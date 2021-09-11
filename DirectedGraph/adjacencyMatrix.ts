@@ -2,16 +2,14 @@
  * 图的领接矩阵表示法
  */
 const adjacencyMatrix = [
-  [0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
-  [1, 0, 1, 1, 0, 1, 0, 0, 0, 0],
-  [0, 1, 0, 0, 1, 1, 0, 0, 0, 0],
-  [1, 1, 0, 0, 0, 0, 1, 1, 0, 0],
-  [0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
-  [0, 1, 1, 0, 1, 0, 1, 0, 1, 1],
-  [0, 0, 0, 1, 0, 1, 0, 1, 1, 0],
-  [0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 1, 0, 0, 1],
-  [0, 0, 0, 0, 1, 1, 0, 0, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 1, 0, 1, 0, 0, 0],
+  [1, 0, 0, 0, 1, 1, 0, 0],
+  [0, 1, 0, 0, 0, 0, 1, 0],
+  [0, 0, 0, 1, 0, 1, 1, 1],
+  [1, 0, 0, 0, 0, 0, 0, 1],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 1, 0],
 ];
 
 /**
@@ -20,7 +18,6 @@ const adjacencyMatrix = [
 class Graph {
   adjacencyMatrix: number[][] = [];
   constructor(adjacencyMatrix: number[][]) {
-    // 领接矩阵下三角表示法
     this.adjacencyMatrix = adjacencyMatrix;
   }
   getVertexNum() {
@@ -30,7 +27,7 @@ class Graph {
   getEdge(v: number, w: number) {
     return this.adjacencyMatrix[v][w] || this.adjacencyMatrix[w][v];
   }
-  // 获取邻接点
+  // 获取（出度 + 入度）邻接点
   getAdjacentVertex(v: number) {
     const adjacentVertexes: number[] = [];
     // 行
