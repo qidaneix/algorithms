@@ -75,6 +75,44 @@ class Graph {
     }
     return res;
   }
+  // 获取（出度）邻接点
+  getAdjacentVertexOutDegree(v: number) {
+    const adjacentVertexes: number[] = [];
+    // 行
+    for (let i = 0; i < this.adjacencyMatrix.length; i++) {
+      const edge = this.adjacencyMatrix[v][i];
+      if (edge) adjacentVertexes.push(i);
+    }
+    return adjacentVertexes;
+  }
+  // 无权最短路径
+  Unweighted(s: number) {
+    const vertexNum = this.getVertexNum();
+    const dist = [];
+    const path = [];
+    for (let i = 0; i < vertexNum; i++) {
+      dist[i] = -1;
+      path[i] = -1;
+    }
+    const queue = [];
+    dist[s] = 0;
+    queue.push(s);
+    while (queue.length) {
+      const vertex = queue.shift() as number;
+      const adjVertexes = this.getAdjacentVertexOutDegree(vertex) as number[];
+      for (let i = 0; i < adjVertexes.length; i++) {
+        if (dist[adjVertexes[i]] === -1) {
+          dist[adjVertexes[i]] = dist[vertex] + 1;
+          path[adjVertexes[i]] = vertex;
+          queue.push(adjVertexes[i]);
+        }
+      }
+    }
+    return {
+      dist,
+      path,
+    };
+  }
 }
 
 const g = new Graph(adjacencyMatrix);

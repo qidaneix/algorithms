@@ -76,7 +76,7 @@ const adjacencyList: adList[] = [
 ];
 
 /**
- * 无向图，领接表表示法
+ * 有向图，领接表表示法
  */
 class Graph {
   adjacencyList: adList[] = [];
@@ -175,34 +175,6 @@ class Graph {
   //   }
   //   return res;
   // }
-  // 无权最短路径
-  Unweighted(s: number) {
-    const vertexNum = this.getVertexNum();
-    const dist = [];
-    const path = [];
-    for (let i = 0; i < vertexNum; i++) {
-      dist[i] = -1;
-      path[i] = -1;
-    }
-    const queue = [];
-    dist[s] = 0;
-    queue.push(s);
-    while (queue.length) {
-      const vertex = queue.shift() as number;
-      const adjVertexes = this.getAdjacentVertex(vertex) as number[];
-      for (let i = 0; i < adjVertexes.length; i++) {
-        if (dist[adjVertexes[i]] === -1) {
-          dist[adjVertexes[i]] = dist[vertex] + 1;
-          path[adjVertexes[i]] = vertex;
-          queue.push(adjVertexes[i]);
-        }
-      }
-    }
-    return {
-      dist,
-      path,
-    };
-  }
   // 有权最短路径
   Dijkstra(s: number) {
     const set = new Set<number>();

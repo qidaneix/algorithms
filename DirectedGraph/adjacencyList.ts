@@ -57,7 +57,7 @@ const adjacencyList: adList[] = [
 ];
 
 /**
- * 无向图，领接表表示法
+ * 有向图，领接表表示法
  */
 class Graph {
   adjacencyList: adList[] = [];
