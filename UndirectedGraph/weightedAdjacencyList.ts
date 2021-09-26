@@ -3,68 +3,103 @@
  */
 interface adList {
   vertex: number;
+  weights: number;
   next?: adList;
 }
 
 const adjacencyList: adList[] = [
-  { vertex: 0, next: { vertex: 1, next: { vertex: 3 } } },
+  {
+    vertex: 0,
+    weights: 0,
+    next: { vertex: 2, weights: 40, next: { vertex: 5, weights: 50 } },
+  },
   {
     vertex: 1,
+    weights: 0,
     next: {
-      vertex: 0,
-      next: { vertex: 3, next: { vertex: 2, next: { vertex: 5 } } },
+      vertex: 2,
+      weights: 2,
+      next: { vertex: 3, weights: 0, next: { vertex: 4, weights: 2 } },
     },
   },
   {
     vertex: 2,
+    weights: 0,
     next: {
       vertex: 1,
-      next: { vertex: 5, next: { vertex: 4 } },
+      weights: 2,
+      next: {
+        vertex: 5,
+        weights: 10,
+        next: { vertex: 4, weights: 3, next: { vertex: 0, weights: 40 } },
+      },
     },
   },
   {
     vertex: 3,
+    weights: 0,
     next: {
-      vertex: 0,
-      next: { vertex: 1, next: { vertex: 6, next: { vertex: 7 } } },
+      vertex: 1,
+      weights: 4,
+      next: { vertex: 4, weights: 2, next: { vertex: 6, weights: 5 } },
     },
   },
   {
     vertex: 4,
+    weights: 0,
     next: {
-      vertex: 2,
-      next: { vertex: 5, next: { vertex: 9 } },
+      vertex: 1,
+      weights: 1,
+      next: {
+        vertex: 2,
+        weights: 3,
+        next: {
+          vertex: 3,
+          weights: 2,
+          next: {
+            vertex: 5,
+            weights: 7,
+            next: { vertex: 6, weights: 8, next: { vertex: 7, weights: 4 } },
+          },
+        },
+      },
     },
   },
   {
     vertex: 5,
+    weights: 0,
     next: {
-      vertex: 1,
+      vertex: 0,
+      weights: 50,
       next: {
         vertex: 2,
+        weights: 10,
         next: {
           vertex: 4,
-          next: { vertex: 6, next: { vertex: 8, next: { vertex: 9 } } },
+          weights: 7,
+          next: { vertex: 7, weights: 6 },
         },
       },
     },
   },
   {
     vertex: 6,
+    weights: 0,
     next: {
       vertex: 3,
-      next: { vertex: 5, next: { vertex: 7, next: { vertex: 8 } } },
+      weights: 5,
+      next: { vertex: 4, weights: 8, next: { vertex: 7, weights: 1 } },
     },
   },
   {
     vertex: 7,
+    weights: 0,
     next: {
-      vertex: 3,
-      next: { vertex: 6 },
+      vertex: 4,
+      weights: 4,
+      next: { vertex: 6, weights: 1, next: { vertex: 5, weights: 6 } },
     },
   },
-  { vertex: 8, next: { vertex: 5, next: { vertex: 6, next: { vertex: 9 } } } },
-  { vertex: 9, next: { vertex: 4, next: { vertex: 5, next: { vertex: 8 } } } },
 ];
 
 /**
@@ -138,6 +173,8 @@ class Graph {
     }
     return res;
   }
+  // 最小生成树
+  Kruskal() {}
 }
 
 const g = new Graph(adjacencyList);
