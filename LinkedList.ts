@@ -49,12 +49,11 @@ class LinkedList {
   }
   push(node: node) {
     let item = this.obj;
-    let preItem: node | null = null;
-    while (item) {
-      preItem = item;
+    if (!item) return node;
+    while (item.next) {
       item = item.next;
     }
-    (preItem as node).next = node;
+    (item as node).next = node;
   }
   findIndex(index: number) {
     let i = -1;

@@ -119,7 +119,7 @@ class BinarySearchTree {
         bst.right = d(delNum, bst.right);
       } else if (delNum < bst.data) {
         // 向左
-        bst.left = d(delNum, bst.right);
+        bst.left = d(delNum, bst.left);
       } else {
         //找到
         if (bst.left && bst.right) {
