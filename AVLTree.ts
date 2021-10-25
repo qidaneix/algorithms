@@ -53,8 +53,8 @@ class AVLTree {
     const newTop = node.left as avlTree;
     node.left = newTop.right;
     newTop.right = node;
-    newTop.height = this.getHeight(newTop);
-    newTop.right.height = this.getHeight(newTop.right);
+    // newTop.height = this.getHeight(newTop);
+    // newTop.right.height = this.getHeight(newTop.right);
     return newTop;
   }
 
@@ -62,8 +62,8 @@ class AVLTree {
     const newTop = node.right as avlTree;
     node.right = newTop.left;
     newTop.left = node;
-    newTop.height = this.getHeight(newTop);
-    newTop.left.height = this.getHeight(newTop.right);
+    // newTop.height = this.getHeight(newTop);
+    // newTop.left.height = this.getHeight(newTop.right);
     return newTop;
   }
 
@@ -99,7 +99,7 @@ class AVLTree {
         }
       }
     }
-    node.height = this.getHeight(node);
+    // node.height = this.getHeight(node);
     return node;
   }
 }
