@@ -53,12 +53,12 @@ Object.keys(obj).forEach((key) => {
 function object(prototype) {
   const F = new Function();
   F.prototype = prototype;
-  return F;
-}
-function setPrototype(supClass) {
-  const F = object(supClass.prototype);
-  F.prototype.constructor = supClass;
   return new F();
+}
+function inheritPrototype(supClass, subClass) {
+  const prototype = object(supClass.prototype);
+  prototype.constructor = subClass;
+  subClass.prototype = prototype;
 }
 
 function Person(name, age) {
@@ -77,7 +77,7 @@ function Man(name, age, job, brave) {
   this.job = job;
   this.brave = brave;
 }
-Man.prototype = setPrototype(Person);
+inheritPrototype(Person, Man);
 Man.prototype.setBrave = function (brave) {
   this.brave = brave;
 };

@@ -193,13 +193,13 @@ export class MinHeap {
   }
 }
 
-// const h = new MinHeap(11, 14, 15, 13, 16, 19, 18, 17);
+const h = new MinHeap(11, 14, 15, 13, 16, 19, 18, 17);
 // console.log(h.getMinHeap());
-// const ht = new HuffmanTree();
-// let preMin: number;
-// while (h.getMinHeap().length > 1) {
-//   const left = h.delete();
-//   const right = h.delete();
-//   preMin = ht.build(left, right, preMin);
-// }
+const ht = new HuffmanTree();
+let preMin: number;
+while (h.getMinHeap().length > 1) {
+  const left = h.delete();
+  const right = h.delete();
+  preMin = ht.build(left, right, preMin);
+}
 // console.log(ht.getTree());
