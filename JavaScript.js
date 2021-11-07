@@ -128,3 +128,85 @@ class EventEmitter {
     }
   }
 }
+
+// es5 Set polyfill
+function Set(array) {
+  this.arr = [];
+  for (var i = 0; i < array.length; i++) {
+    var item = array[i];
+    var hasSame = false;
+    for (var j = 0; j < this.arr.length; j++) {
+      if (this.arr[j] === item) {
+        hasSame = true;
+        break;
+      }
+    }
+    if (!hasSame) this.arr.push(item);
+  }
+
+  var _this = this;
+  Object.defineProperty(this, "size", {
+    configurable: false,
+    enumerable: false,
+    get: function () {
+      return _this.arr.length;
+    },
+  });
+}
+
+Set.prototype.add = function (item) {
+  var hasSame = false;
+  for (var j = 0; j < this.arr.length; j++) {
+    if (this.arr[j] === item) {
+      hasSame = true;
+      break;
+    }
+  }
+  if (!hasSame) this.arr.push(item);
+};
+
+Set.prototype.delete = function (item) {
+  for (var j = 0; j < this.arr.length; j++) {
+    if (this.arr[j] === item) {
+      this.arr.splice(j, 1);
+      break;
+    }
+  }
+};
+
+Set.prototype.has = function (item) {
+  for (var j = 0; j < this.arr.length; j++) {
+    if (this.arr[j] === item) {
+      return true;
+    }
+  }
+  return false;
+};
+
+Set.prototype.values = function () {
+  return this.arr;
+};
+
+// set 小测试
+const obj = { hello: "world" };
+const o = obj;
+const set = new Set([
+  1,
+  1,
+  "2",
+  "2",
+  true,
+  true,
+  { foo: "bar" },
+  { foo: "bar" },
+  obj,
+  o,
+  undefined,
+  undefined,
+  null,
+  null,
+  NaN,
+  NaN,
+]);
+
+console.log([...set]);
